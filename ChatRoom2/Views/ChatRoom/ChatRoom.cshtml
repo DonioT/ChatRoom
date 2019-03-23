@@ -1,0 +1,366 @@
+﻿@model ChatRoom2.Models.UserModel
+@{
+    ViewBag.Title = "ChatRoom";
+}
+
+<style>
+    #ChatType {
+        padding: 5px;
+    }
+</style>
+<link href="~/Content/Chat.css" rel="stylesheet" type="text/css" />
+
+<div id="chatrooms" style="height: 40px;">
+</div>
+
+<div class="container" id="messagesContainer">
+    @{Html.RenderAction("ChatHistory", "ChatRoom"); }
+</div>
+<div id="userContainer">
+    <div id="userListHeading">
+        <p><img id="userChatRoomIcon" src="@Model.AvatarUrl" /> @Model.UserName</p>
+    </div>
+    <div id="ChatType">
+        <button style="font-size: 10px; width:100%; display:none;" class="btn btn-default" type="button" id="AllChatButton">All</button>
+        <button style="font-size: 10px; width:100%; display:block;" class="btn btn-default" type="button" id="PrivateChatButton">
+            Private @{if (ViewBag.NotificationCount > 0)
+            { <img src="~/Content/Images/notificationBell.png" style="height:14px;width:14px;" />} }
+        </button>
+    </div>
+    <div id="userList">
+    </div>
+    <div class="createDiv">
+
+    </div>
+</div>
+
+
+
+<br />
+<div id="sendMessageContainer">
+    <div id="messageContainer">
+        <textarea placeholder="Enter your message..." id="message"></textarea>
+    </div>
+    <div id="messageButtonContainer">
+        <button class="btn btn-default" type="button" id="sendmessage">Send</button>
+    </div>
+
+</div>
+
+
+
+@section scripts {
+
+    <script>
+        $(function () {
+
+            fetchUserList();
+
+
+            // Reference the auto-generated proxy for the hub.
+
+            var chat = $.connection.chatHub;
+
+            // Create a function that the hub can call back to display messages.
+
+            chat.client.ReceivePrivateMessage = function (messageObj) {
+                fetchPrivateChatList();
+                var groupId = $('#group').attr('data-groupId');
+                if (typeof groupId !== 'undefined') {
+                    fetchPrivateChatList($('#group').attr('data-groupId'));
+                    if (groupId == messageObj.groupId) {
+                        $('#privateChatContainer').append('<div class="row messageInfoContainer"> <div class="col-md-3 messageInfo" > <p class="messageSenderInfo"  style="color: #92959E;">' + htmlEncode(messageObj.time) + '<strong style="color: black; float:right;">' + htmlEncode(messageObj.sender)
+               + '</strong> </p> </div> <div class="col-md-9 chatMessages" ><p class="messageParagraph">' + htmlEncode(messageObj.message) + '</p></div></div>');
+                    }
+                }
+            }
+
+
+            chat.client.addNewMessageToPage = function (name, message, date) {
+                $('#globalChat').append('<div class="row messageInfoContainer"> <div class="col-md-3 messageInfo" > <p class="messageSenderInfo"  style="color: #92959E;">' + date + '<strong style="color: black; float:right;">' + htmlEncode(name)
+               + '</strong> </p> </div> <div class="col-md-9 chatMessages" ><p class="messageParagraph">' + htmlEncode(message) + '</p></div></div>');
+
+            };
+
+            chat.client.userConnected = function (user, date) {
+                $('#globalChat').append('<div class="row messageInfoContainer"> <div class="col-md-3 messageInfo" > <p  class="messageSenderInfo"  style="color: #92959E;">' + date +
+              '</p> </div> <div class="col-md-9 chatMessages" ><p class="messageParagraph"  style="color: #92959E;">' + htmlEncode(user) + ' Just Connected To The Chat.</p></div></div>');
+                fetchUserList();
+            }
+
+            chat.client.userDisconnected = function (user, date) {
+                $('#globalChat').append('<div class="row messageInfoContainer"> <div class="col-md-3 messageInfo" > <p  class="messageSenderInfo"  style="color: #92959E;">' + date +
+             '</p> </div> <div class="col-md-9 chatMessages" ><p class="messageParagraph"  style="color: #92959E;">' + htmlEncode(user) + ' Just Disconnected From The Chat.</p></div></div>');
+                fetchUserList();
+            }
+
+            // Get the user name and store it to prepend to messages.
+            // Set initial focus to message input box.
+            $('#message').focus();
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+
+                $('#sendmessage').click(function () {
+                    //check groupid field
+
+                    var groupId = $('#group').attr('data-groupId');
+
+                    // Call the Send method on the hub.
+                    var message = $('#message').val();
+                    if ($('#message').val().trim().length != 0) {
+                        //check if private message
+                        if (typeof groupId === 'undefined') {
+                            chat.server.send($('#message').val());
+                            saveUserMessage();
+                        } else {
+                            chat.server.send($('#message').val(), groupId);
+                            saveGroupMessage(groupId, message);
+                          
+                        }
+                        // Clear text box and reset focus for next comment.
+                        $('#message').val('').focus();
+                        //kepe scroll at bottom
+                        $('#messagesContainer').animate({ scrollTop: $('#messagesContainer')[0].scrollHeight }, 50);
+                        
+                    } else {
+                        $('#message').focus();
+
+                    }
+                });
+            });
+        });
+
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+
+        $(document).on('click', '.imageUserIconPreview', function () {
+            replaceImageSrc(this, '#userChatRoomIcon');
+        });
+
+
+        $('#userChatRoomIcon').click(function () {
+            var srcVal = $(this).attr('src');
+            $('#userChatRoomIcon').popModal({
+                placement: "bottomCenter",
+                html: $('#imageContent').html(),
+                onClose: function () {
+                    if ($('#userChatRoomIcon').attr('src') != srcVal) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/ChatRoom/UpdateUser",
+                            data: {
+                                UserId: '@Model.UserId',
+                                UserName: '@Model.UserName',
+                                AvatarUrl: $('#userChatRoomIcon').attr('src')
+                            }
+
+                        }).done(function (data) {
+                            fetchUserList();
+                            if (data) {
+                                $.growl.notice({ title: "Update Successful", message: "Avatar Updated" });
+                            } else {
+                                $.growl.error({ title: "Update Failed", message: "Avatar not updated" });
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+        $(document).on('click', '.privateChatData', function (e) {
+            var groupId = $(this).parent().attr('data-groupId');
+
+            $.ajax({
+                type: "GET",
+                url: "/ChatRoom/GetPrivateChat",
+                data: {
+                    groupId: groupId
+                }
+            }).done(function (data) {
+                $('#messagesContainer').html(data);
+                fetchPrivateChatList(groupId);
+                $('#messagesContainer').animate({ scrollTop: $('#messagesContainer')[0].scrollHeight }, 50);
+            });
+        });
+
+
+        $('#PrivateChatButton').click(function (e) {
+            fetchPrivateChatList();
+            fetchMostRecentGroupChat();
+
+        });
+
+        $(document).on('click', '.deleteGroup', function (e) {
+            var groupId = $(this).parent().attr('data-groupId');
+
+            $.ajax({
+                type: "POST",
+                url: "/ChatRoom/DeleteGroupChat",
+                data: {
+                    groupId: groupId
+                }
+            }).done(function (data) {
+                fetchPrivateChatList();
+                fetchMostRecentGroupChat();
+
+            });
+        });
+
+        $(document).on('keypress', '#CreatePrivateChatMessage', function (e) {
+            $(this).removeClass("errorClass");
+        });
+
+        $(document).on('click', '#CreateChatButton', function (e) {
+            var memberIds = [$('#CreatePrivateChatUser').attr('data-userId'), '@Model.UserId'];
+            var message = $('#CreatePrivateChatMessage').val();
+
+            if (message.trim() != "") {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/ChatRoom/CreatePrivateChat",
+                    traditional: true,
+                    data: {
+                        chatUserIds: memberIds,
+                        message: message
+                    }
+                }).done(function (data) {
+                    $('#myModal').modal('toggle');
+                    var guid = data;
+                    $.ajax({
+                        type: "GET",
+                        url: "/ChatRoom/GetPrivateChat",
+                        data: {
+                            groupId: guid
+                        }
+                    }).done(function (data) {
+                        $('#messagesContainer').html(data);
+                        fetchPrivateChatList(guid);
+                        $('#messagesContainer').animate({ scrollTop: $('#messagesContainer')[0].scrollHeight }, 50);
+                    });
+                });
+            } else {
+                $('#CreatePrivateChatMessage').addClass("errorClass");
+            }
+
+        });
+
+
+
+
+        $(document).on('click', '.connectedUser', function (e) {
+            var memberIds = [$(this).attr('data-userId'), '@Model.UserId']
+
+            $.ajax({
+                type: "GET",
+                url: "/ChatRoom/GroupChat",
+                traditional: true,
+                data: {
+                    chatMemberIds: memberIds
+                }
+
+            }).done(function (data) {
+                $('#messagesContainer').html(data);
+                $('#messagesContainer').animate({ scrollTop: $('#messagesContainer')[0].scrollHeight }, 50);
+                var groupId = $('#group').attr('data-groupId');
+                fetchPrivateChatList(groupId);
+            });
+        });
+
+        $("#myModal").on("show.bs.modal", function (e) {
+            $.ajax({
+                type: "GET",
+                url: "/ChatRoom/GetCreatePrivateChatPartial"
+            }).done(function (data) {
+                $("#myModal").find(".modal-dialog").css("width", "400px");
+                $("#myModal").find(".modal-title").text("New Chat")
+                $("#myModal").find(".modal-body").html(data);
+
+            });
+        });
+
+
+        function fetchMostRecentGroupChat() {
+            $.ajax({
+                type: "GET",
+                url: "/ChatRoom/GetRecentGroupChat",
+                data: {
+                    userId: '@Model.UserId'
+                }
+            }).done(function (data) {
+                $('#messagesContainer').html(data);
+                $('#messagesContainer').animate({ scrollTop: $('#messagesContainer')[0].scrollHeight }, 50);
+                var groupId = $('#group').attr('data-groupId');
+                fetchPrivateChatList(groupId);
+            });
+        }
+
+        function fetchPrivateChatList(groupId) {
+            $.ajax({
+                type: "GET",
+                url: "/ChatRoom/GetPrivateMessages",
+                data: {
+                    userId: '@Model.UserId'
+                }
+            }).done(function (data) {
+                $('#PrivateChatButton').css('display', 'none');
+                $('#AllChatButton').css('display', 'block');
+                $('#userList').html(data).promise().done(function () {
+                $('#userList').find($('.groupChat[data-groupId=' + groupId + ']')).addClass("selectedGroup");
+                });
+          //     
+            })
+        }
+        $('#AllChatButton').click(function (e) {
+            fetchUserList();
+            fetchGlobalChatHistory();
+            $('#messagesContainer').animate({ scrollTop: $('#messagesContainer')[0].scrollHeight }, 50);
+        });
+
+        function fetchGlobalChatHistory() {
+            $.ajax({
+                type: "GET",
+                url: "/ChatRoom/ChatHistory",
+            }).done(function (data) {
+                $('#messagesContainer').html(data);
+            });
+        }
+
+        function saveGroupMessage(groupId, message) {
+            $.ajax({
+                type: "POST",
+                url: "/ChatRoom/SendPrivateMessage",
+                data: {
+                    groupId: groupId,
+                    message: message
+                }
+            }).done(function (data) {
+
+            });
+        }
+
+        function saveUserMessage() {
+            $.ajax({
+                type: "POST",
+                url: "/ChatRoom/SaveChatMessage",
+                data: {
+                    message: $('#message').val()
+                }
+            }).done(function (data) {
+            });
+        }
+
+        function fetchUserList() {
+            $.ajax({
+                type: "GET",
+                url: "/ChatRoom/GetUserList"
+            }).done(function (data) {
+                $('#PrivateChatButton').css('display', 'block');
+                $('#AllChatButton').css('display', 'none');
+                $('#userList').html(data);
+            });
+        }
+    </script>
+}

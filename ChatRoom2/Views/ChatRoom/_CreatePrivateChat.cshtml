@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "_CreatePrivateChat";
+}
+
+<style>
+    /* enable absolute positioning */
+    .inner-addon {
+        position: relative;
+    }
+
+        /* style icon */
+        .inner-addon .glyphicon {
+            position: absolute;
+            padding: 10px;
+            pointer-events: none;
+        }
+
+    /* align icon */
+    .left-addon .glyphicon {
+        left: 0px;
+    }
+
+    .right-addon .glyphicon {
+        right: 0px;
+    }
+
+    /* add padding  */
+    .left-addon input {
+        padding-left: 30px;
+    }
+
+    .right-addon input {
+        padding-right: 30px;
+    }
+</style>
+<div>
+    <form>
+        <div class="inner-addon right-addon">
+            <i style="color:red; visibility:hidden;" class="glyphicon glyphicon-remove errorUser"></i>
+            <i style="color:green; visibility:hidden;" class="glyphicon glyphicon-ok validUser"></i>
+            <input class="form-control" placeholder="User" data-userId="" id="CreatePrivateChatUser" required />
+        </div>
+        <textarea class="form-control" placeholder="Message" id="CreatePrivateChatMessage" rows="5" required></textarea>
+
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" id="CreateChatButton" class="btn btn-primary disabled">Create</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(function () {
+
+      
+        // $('#CreateChatButton')[0].disabled = true;
+        $('#CreatePrivateChatUser').keypress(function (e) {
+            $('#CreatePrivateChatUser').attr('data-userId', "");
+            $('.errorUser').css("visibility", "visible");
+            $('.validUser').css("visibility", "hidden");
+            $('#CreateChatButton').addClass("disabled");
+            $('#CreatePrivateChatUser').autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Home/UserAutoComplete",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.UserName, value: item.UserName, userId: item.UserId };
+                            }));
+                        },
+                    });
+                    minLength: 2
+                },
+                select: function (event, ui) {
+                    $('#CreatePrivateChatUser').attr('data-userId', ui.item.userId);
+                    $('#CreateChatButton').removeClass("disabled");
+                    $('.errorUser').css("visibility", "hidden");
+                    $('.validUser').css("visibility", "visible");
+                },
+            });
+        });
+    });
+
+</script>

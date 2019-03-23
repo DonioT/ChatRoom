@@ -1,0 +1,12 @@
+﻿<div class="login-page">
+    <div class="form">
+      
+        <form class="login-form">
+            @Html.TextBox("Username", null, new { @class = "form-control", @id = "username", @placeholder = "Username", required = "required", value = !String.IsNullOrEmpty(ViewBag.username) ? ViewBag.username : "" })
+            @Html.TextBox("Password", null, new { @class = "form-control", @type = "password", @id = "password", @placeholder = "Password", required = "required" })
+            <button type="button" class="login-btn btn btn-primary">Login</button>
+          
+            <p class="message">Not registered? @Html.ActionLink("Create an account", "Register", "Home")</p>
+        </form>
+    </div>
+</div>

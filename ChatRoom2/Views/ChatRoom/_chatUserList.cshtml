@@ -1,0 +1,12 @@
+﻿@model  List<ChatRoom2.Models.UserModel>
+
+@if (Model != null && Model.Count > 0)
+{
+
+    foreach (var user in Model.Where(e => !String.Equals(e.UserName, User.Identity.Name, StringComparison.OrdinalIgnoreCase)))
+    {
+        <p class = "connectedUser" data-userId="@user.UserId"><img class="userListIcon" src="@user.AvatarUrl"/>@user.UserName</p>
+    }
+
+}
+

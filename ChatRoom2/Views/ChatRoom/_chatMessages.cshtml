@@ -1,0 +1,29 @@
+﻿@model List<ChatRoom2.Models.ChatMessageModel>
+@{
+    ViewBag.Title = "_chatMessages";
+}
+<div id="globalChat">
+    @if (Model != null && Model.Count > 0)
+    {
+        foreach (var chatMessage in Model.OrderBy(e => e.DateSent))
+        {
+            <div class="row messageInfoContainer">
+                <div class="col-md-3 messageInfo">
+                    <p class="messageSenderInfo" style="color: #b8bed2;">@chatMessage.DateSent.ToShortTimeString() <strong style="color: #b8bed2; float: right;"> @chatMessage.User.UserName</strong></p>
+                </div>
+                <div class="col-md-9 chatMessages">
+                    <p style="color: #b8bed2;" class="messageParagraph">@chatMessage.ChatMessage</p>
+                </div>
+            </div>
+        }
+    }
+
+    <div class="row messageInfoContainer">
+        <div class="col-md-3 messageInfo">
+            <p class="messageSenderInfo" style="color: #b8bed2;">@DateTime.Now.ToShortTimeString()</p>
+        </div>
+        <div class="col-md-9 chatMessages">
+            <p style="color: #b8bed2;" class="messageParagraph">Welcome to chatroom 0.1. Say Hello!</p>
+        </div>
+    </div>
+</div>

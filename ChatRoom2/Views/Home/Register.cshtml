@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+    string whatHappened = ViewBag.returnString;
+}
+<div class="login-page">
+    <div class="form">
+        <form class="register-form">
+          
+            <img id ="RegisterUserIcon" src="/Content/Images/UserIcons/1.png"/>
+            <div id="inputsRegister">
+                @Html.TextBox("RegisterUsername", null, new { @class = "form-control", @id = "registerUsername", @placeholder = "Username", required = "required", value = !String.IsNullOrEmpty(ViewBag.username) ? ViewBag.username : "" })
+                @Html.TextBox("RegisterPassword", null, new { @class = "form-control", @type = "password", @id = "registerPassword", @placeholder = "Password", required = "required" })
+                @Html.TextBox("RegisterConfirmPassword", null, new { @class = "form-control", @type = "password", @id = "registerConfirmPassword", @placeholder = "Confirm Password", required = "required" })
+            </div>
+            <button type="button" class="register-btn btn btn-primary">Register</button>
+            <p class="message">Already registered? @Html.ActionLink("Login", "Index", "Home")</p>
+        </form>
+    </div>
+</div>
+
+<script>
+
+  
+</script>
+

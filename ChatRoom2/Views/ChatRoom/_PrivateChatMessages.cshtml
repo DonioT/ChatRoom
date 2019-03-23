@@ -1,0 +1,48 @@
+﻿@model ChatRoom2.Models.GroupChatModel
+@{
+    ViewBag.Title = "_PrivateChatMessages";
+}
+<div id="privateChatContainer">
+    <input type="hidden" data-groupId="@Model.GroupId" id="group" />
+    @if (Model != null && Model.GroupMessages != null && Model.GroupMessages.Count > 0)
+    {
+        foreach (var chatMessage in Model.GroupMessages.OrderBy(e => e.ChatMessage.DateSent))
+        {
+            <div class="row messageInfoContainer">
+                <div class="col-md-3 messageInfo">
+                    <p class="messageSenderInfo" style="color: #b8bed2;">@chatMessage.ChatMessage.DateSent.ToShortTimeString() <strong style="color: #b8bed2; float: right;"> @chatMessage.ChatMessage.User.UserName</strong></p>
+                </div>
+                <div class="col-md-9 chatMessages">
+                    <p  class="messageParagraph">@chatMessage.ChatMessage.ChatMessage</p>
+                </div>
+            </div>
+        }
+    }
+    else if (Model.GroupId == Guid.Empty)
+    {
+        <div class="row messageInfoContainer">
+            <div class="col-md-3 messageInfo">
+                <p class="messageSenderInfo" style="color: #b8bed2;">@DateTime.Now.ToShortTimeString() <strong style="color: #b8bed2; float: right;"> Server</strong></p>
+            </div>
+            <div class="col-md-9 chatMessages">
+                <p style="color: #b8bed2;" class="messageParagraph">You have no private chats!</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row messageInfoContainer">
+            <div class="col-md-3 messageInfo">
+                <p class="messageSenderInfo" style="color: #b8bed2;">@DateTime.Now.ToShortTimeString() <strong style="color: #b8bed2; float: right;"> Server</strong></p>
+            </div>
+            <div class="col-md-9 chatMessages">
+                <p style="color: #b8bed2;" class="messageParagraph">Private chat created</p>
+            </div>
+        </div>
+    }
+
+</div>
+
+@section scripts {
+   
+}

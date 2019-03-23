@@ -1,0 +1,30 @@
+﻿@model List<ChatRoom2.Models.GroupChatModel>
+@{
+    ViewBag.Title = "_PrivateMessageList";
+}
+
+<div id="CreatePrivateChatContainer">
+    <a id="CreatePrivateChat" data-toggle="modal" data-target="#myModal" data-remote="false">
+        <img src="~/Content/Images/createChat.png" style="height:25px"/>  Chat
+    </a>
+   
+</div>
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var groupChat in Model.Where(e => e.GroupMessages.Count > 0))
+    {
+        <div class="groupChat" data-groupId="@groupChat.GroupId" data-selected="false">
+            <div class="privateChatData">
+                <div class="unreadCount">@groupChat.UnreadCount</div>
+                <p class="privateChatName">
+                    @foreach (var groupMember in groupChat.GroupMembers.Where(e => !String.Equals(e.User.UserName, User.Identity.Name, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        @groupMember.User.UserName
+                    }
+                </p>
+            </div>
+            <a class="deleteGroup"> </a>
+        </div>
+    }
+
+}

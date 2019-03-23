@@ -1,0 +1,321 @@
+﻿
+
+#messagesContainer {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
+    margin-right: 3px;
+    height: 70%;
+    overflow: auto;
+    word-wrap: break-word;
+    padding: 20px;
+    width: 80%;
+    float: left;
+}
+
+.messageInfo {
+    width: 25%;
+}
+
+#userContainer {
+    background-color: #e4eef252;
+    height: 70%;
+    width: 19%;
+    float: left;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
+}
+
+#messageContainer {
+    width: 80%;
+    height: 100%;
+    float: left;
+}
+
+#sendmessage {
+    width: 100%;
+    height: 100%;
+}
+
+#sendMessageContainer {
+    float: left;
+}
+
+#messageButtonContainer {
+    float: left;
+    width: 19.7%;
+    height: 70%;
+    float: left;
+    padding: 5px;
+}
+
+.messageInfoContainer {
+    width: 100%;
+    float: left;
+}
+
+.messageInfo {
+    padding-right: 10px;
+    float: left;
+}
+
+.chatMessages {
+    float: left;
+    max-width: 80%;
+    border-left: solid 0.6px #dbd5d5;
+}
+
+#message {
+    resize: none;
+    width: 100%;
+    padding: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
+    margin-top: 5px;
+    height: 60%;
+}
+
+#userList {
+    border-top: 1px solid #abc;
+    margin-left: 0px;
+    overflow: auto;
+    word-wrap: break-word;
+    padding-bottom: 10px;
+}
+
+#sendMessageContainer {
+    width: 100%;
+    height: 15%;
+}
+
+#userListHeading {
+    padding: 10px;
+    height: 10%;
+    margin-left: 0px;
+    border-bottom: solid 0.2px #dadada;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
+}
+
+    #userListHeading p {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        text-align: center;
+        color: #999999;
+    }
+
+#userChatRoomIcon {
+    height: 50%;
+    width: 50%;
+    max-width: 32px;
+}
+
+.userListIcon {
+    height: 50%;
+    width: 50%;
+    max-width: 32px;
+    margin-right: 5px;
+}
+
+#userChatRoomIcon {
+    cursor: pointer;
+}
+
+
+
+.messageSenderInfo {
+    padding-left: 5px;
+}
+
+.connectedUser {
+    cursor: pointer;
+    padding: 10px;
+    margin: 0px !important;
+    width: 100%;
+    color: #999999;
+}
+
+.connectedUser:hover{
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
+}
+
+#CreatePrivateChatContainer{
+     cursor: pointer;
+    float: left;
+    width: 100%;
+    height: 50px;
+    color: #999999;
+    padding: 10px;
+    line-height: 28px;
+    text-align: center;
+    padding-left: 0px !important;
+    
+}
+
+#CreatePrivateChatUser{
+    margin: 0 auto;
+    width: 100%;
+    margin-bottom: 20px;
+    max-width: 100% !important;
+}
+
+#CreatePrivateChatContainer:hover{
+     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
+     background-color: #b9e6f963;
+     
+}
+#CreatePrivateChatContainer a:hover{
+    text-decoration: none;
+}
+
+.errorClass{
+    border:1px solid red;
+}
+
+#CreatePrivateChatMessage{
+    width:100%;
+    resize: none;
+}
+
+.groupChat {
+    cursor: pointer;
+    float: left;
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    color: #999999;
+    line-height: 28px;
+}
+
+.selectedGroup{
+    background-color: #b9e6f963;
+}
+
+.privateChatName {
+    float: left;
+}
+
+.groupChat:hover {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2), 0 3px 3px 0 rgba(0, 0, 0, 0.24);
+}
+
+    .groupChat:hover .deleteGroup {
+        visibility: visible;
+    }
+
+.deleteGroup {
+    background-image: url('Images/deleteIcon.png' );
+    background-size: contain;
+    height: 24px;
+    width: 24px;
+    border: none;
+    float: right;
+    visibility: hidden;
+    margin-top: 2px;
+    margin-right: 10px;
+}
+
+
+
+
+
+.unreadCount {
+    float: left;
+    border: 2px #fff solid;
+    border-radius: 50%;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.24);
+    margin-right: 6px;
+    font: bold 15px/13px Helvetica, Verdana, Tahoma;
+    height: 32px;
+    color: white;
+    min-width: 32px;
+    padding: 7px 2px 0 3px;
+    text-align: center;
+    background-color: #3498db;
+}
+
+
+@media screen and (max-width: 1440x) {
+    .body-content {
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .body-content {
+        font-size: 11px;
+    }
+
+    .messageInfo {
+        width: 25%;
+    }
+
+    .chatMessages {
+        width: 75%;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    .body-content {
+        font-size: 9px;
+    }
+
+    .messageInfo {
+        width: 30%;
+    }
+
+    .chatMessages {
+        width: 70%;
+    }
+}
+
+
+@media screen and (max-width: 650px) {
+    .body-content {
+        font-size: 9px;
+    }
+
+    .messageInfo {
+        width: 35%;
+    }
+
+    .chatMessages {
+        width: 65%;
+    }
+
+    #userContainer img {
+        height: 35%;
+        width: 35%;
+    }
+}
+
+
+
+.messageParagraph {
+    word-break: break-word;
+}
+
+@media screen and (max-width: 480px) {
+    .body-content {
+        font-size: 7px;
+    }
+
+    .messageInfo {
+        width: 40%;
+    }
+
+    #userContainer {
+        width: 18% !important;
+    }
+
+    .chatMessages {
+        width: 60%;
+    }
+}
+
+
+
+::-webkit-scrollbar {
+    width: 0px; /* remove scrollbar space */
+    background: transparent; /* optional: just make scrollbar invisible */
+}
+/* optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}

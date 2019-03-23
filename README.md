@@ -1,7 +1,6 @@
-# ChatRoom
-SignalR .net Chat 
+# SignalR .net Chat 
 
-The aim of this mini project was to figure out how to use signal r messaging for a web application. 
+The aim of this mini project was to figure out how to use signal r messaging for a web application.There are a ton of mini additions that can be made to make this a more useful chat application. 
 
 I learned a couple of things during this project:
 
@@ -14,6 +13,10 @@ I learned a couple of things during this project:
 - The front-end design of this web application is definitely lacking. It would be best to scrap the entire front end design and redo it to be more pleasing on the eye and responsive.
 
 - Private message notifications don't update in real time if the user is already in the private message tab. There is no listener for that right now (only when the user switches tabs / logs in) 
+
+- Group chatting can be implemented , the database tables and a few functions are designed for this case (but at the moment only 1 on 1 messaging is implemented)
+
+
 
 ## Screens
 

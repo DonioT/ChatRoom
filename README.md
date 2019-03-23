@@ -18,7 +18,7 @@ I learned a couple of things during this project:
 ## Screens
 
 - [Login](https://imgur.com/HabnXcJ)
-- [Register](https://imgur.com/HabnXcJ)
+- [Register](https://imgur.com/IToqQAn)
 - [Register avatar selection](https://imgur.com/bISiMAt)
 - [Global Chat Room](https://imgur.com/ArPAHz0) > Clicking a user in this tab will take you to a private message with that user
 - [Change avatar after registration](https://imgur.com/ArPAHz0)

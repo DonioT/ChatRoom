@@ -8,6 +8,8 @@ I learned a couple of things during this project:
 
 - signal r framework 
 
+- improved jquery knowledge 
+
 - Trying to use best practises such as (reusable views/partial views, user authentication{passing sensitive data through headers, password hashing etc}
 
 ## Known Problems / Improvements

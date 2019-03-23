@@ -21,11 +21,11 @@ I learned a couple of things during this project:
 - [Register](https://imgur.com/IToqQAn)
 - [Register avatar selection](https://imgur.com/bISiMAt)
 - [Global Chat Room](https://imgur.com/ArPAHz0) > Clicking a user in this tab will take you to a private message with that user
-- [Change avatar after registration](https://imgur.com/ArPAHz0)
+- [Change avatar after registration](https://imgur.com/6r9KcnJ)
 - [Private message tab](https://imgur.com/X8YjeOV) > On hover to delete a private message
-- [New private chat in case user is offline](https://imgur.com/X8YjeOV) 
+- [New private chat in case user is offline](https://imgur.com/nTWBGtN) 
 - [Basic validation example 1](https://imgur.com/IToqQAn) > Jgrowl notifactions used for success / errors
-- [Basic validation example 2](https://imgur.com/IToqQAn)
+- [Basic validation example 2](https://imgur.com/7hYCm2S)
 
 
 

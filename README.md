@@ -5,7 +5,9 @@ The aim of this mini project was to figure out how to use signal r messaging for
 I learned a couple of things during this project:
 
 - Code first database approach, versus the database first approach I always used in the past
+
 - signal r framework 
+
 - Trying to use best practises such as (reusable views/partial views, user authentication{passing sensitive data through headers, password hashing etc}
 
 ## Known Problems / Improvements

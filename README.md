@@ -18,7 +18,7 @@ I learned a couple of things during this project:
 
 - Private message notifications don't update in real time if the user is already in the private message tab. There is no listener for that right now (only when the user switches tabs / logs in) 
 
-- Group chatting can be implemented , the database tables and a few functions are designed for this case (but at the moment only 1 on 1 messaging is implemented), although I'm sure there is a lot I'm doing sub optimally.
+- Group chatting can be implemented , the database tables and a few functions are designed for this case (but at the moment only 1 on 1 messaging is implemented), although I'm sure there is a lot I'm doing terribly.
 
 
 

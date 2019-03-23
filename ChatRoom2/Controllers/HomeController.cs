@@ -68,7 +68,6 @@ namespace ChatRoom2.Controllers
         [AllowAnonymous]
         public string RegisterUser(string avatar)
         {
-            string returnString = "exists";
             string username = Request.Headers["username"];
             string password = HashPass(Request.Headers["password"]);
             //check if username already exists
@@ -83,16 +82,13 @@ namespace ChatRoom2.Controllers
                     AvatarUrl = avatar
                 });
 
-                returnString = success ? "success" : "error";
-
                 if (success)
                 {
                     FormsAuthentication.SetAuthCookie(username, true);
                     return Url.Action("Index", "ChatRoom");
                 }
             }
-            ViewBag.username = username;
-            ViewBag.returnString = returnString;
+         
             return Url.Action("Register", "Home");
         }
 

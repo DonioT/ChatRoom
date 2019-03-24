@@ -54,18 +54,23 @@
             // Create a function that the hub can call back to display messages.
 
             chat.client.ReceivePrivateMessage = function (messageObj) {
-               
+
                 var groupId = $('#group').attr('data-groupId');
+
+               
                 if (typeof groupId !== 'undefined') {
-                    fetchPrivateChatList($('#group').attr('data-groupId'));
                     if (groupId == messageObj.groupId) {
                         $('#privateChatContainer').append('<div class="row messageInfoContainer"> <div class="col-md-3 messageInfo" > <p class="messageSenderInfo"  style="color: #92959E;">' + htmlEncode(messageObj.time) + '<strong style="color: black; float:right;">' + htmlEncode(messageObj.sender)
                + '</strong> </p> </div> <div class="col-md-9 chatMessages" ><p class="messageParagraph">' + htmlEncode(messageObj.message) + '</p></div></div>');
                         $('#messagesContainer').animate({ scrollTop: $('#messagesContainer')[0].scrollHeight }, 50);
                     }
                 }
-            }
-
+                return new Promise(function (fulfill, reject) {
+                    fetchPrivateChatList($('#group').attr('data-groupId'));
+                    fetchPrivateChatList($('#group').attr('data-groupId'));
+                });
+            };
+          
 
             chat.client.addNewMessageToPage = function (name, message, date) {
 
@@ -243,9 +248,6 @@
 
         });
 
-
-
-
         $(document).on('click', '.connectedUser', function (e) {
             var memberIds = [$(this).attr('data-userId'), '@Model.UserId']
 
@@ -260,9 +262,10 @@
             }).done(function (data) {
                 $('#messagesContainer').html(data);
                 $('#messagesContainer').animate({ scrollTop: $('#messagesContainer')[0].scrollHeight }, 50);
-                var groupId = $('#group').attr('data-groupId');
-                fetchPrivateChatList(groupId);
+                fetchPrivateChatList($('#group').attr('data-groupId'));
             });
+
+
         });
 
         $("#myModal").on("show.bs.modal", function (e) {
@@ -304,7 +307,7 @@
                 $('#PrivateChatButton').css('display', 'none');
                 $('#AllChatButton').css('display', 'block');
                 $('#userList').html(data).promise().done(function () {
-                 $('#userList').find($('.groupChat[data-groupId=' + groupId + ']')).addClass("selectedGroup");
+                    $('#userList').find($('.groupChat[data-groupId=' + groupId + ']')).addClass("selectedGroup");
                 });
             })
         }
@@ -332,7 +335,7 @@
                     message: message
                 }
             }).done(function (data) {
-
+                fetchPrivateChatList(groupId);
             });
         }
 

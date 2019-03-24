@@ -2,17 +2,14 @@
 @{
     ViewBag.Title = "ChatRoom";
 }
-
 <style>
     #ChatType {
         padding: 5px;
     }
 </style>
 <link href="~/Content/Chat.css" rel="stylesheet" type="text/css" />
-
 <div id="chatrooms" style="height: 40px;">
 </div>
-
 <div class="container" id="messagesContainer">
     @{Html.RenderAction("ChatHistory", "ChatRoom"); }
 </div>
@@ -30,11 +27,8 @@
     <div id="userList">
     </div>
     <div class="createDiv">
-
     </div>
 </div>
-
-
 
 <br />
 <div id="sendMessageContainer">
@@ -44,13 +38,9 @@
     <div id="messageButtonContainer">
         <button class="btn btn-default" type="button" id="sendmessage">Send</button>
     </div>
-
 </div>
 
-
-
 @section scripts {
-
     <script>
         $(function () {
 
@@ -64,34 +54,42 @@
             // Create a function that the hub can call back to display messages.
 
             chat.client.ReceivePrivateMessage = function (messageObj) {
-                fetchPrivateChatList();
+               
                 var groupId = $('#group').attr('data-groupId');
                 if (typeof groupId !== 'undefined') {
                     fetchPrivateChatList($('#group').attr('data-groupId'));
                     if (groupId == messageObj.groupId) {
                         $('#privateChatContainer').append('<div class="row messageInfoContainer"> <div class="col-md-3 messageInfo" > <p class="messageSenderInfo"  style="color: #92959E;">' + htmlEncode(messageObj.time) + '<strong style="color: black; float:right;">' + htmlEncode(messageObj.sender)
                + '</strong> </p> </div> <div class="col-md-9 chatMessages" ><p class="messageParagraph">' + htmlEncode(messageObj.message) + '</p></div></div>');
+                        $('#messagesContainer').animate({ scrollTop: $('#messagesContainer')[0].scrollHeight }, 50);
                     }
                 }
             }
 
 
             chat.client.addNewMessageToPage = function (name, message, date) {
+
                 $('#globalChat').append('<div class="row messageInfoContainer"> <div class="col-md-3 messageInfo" > <p class="messageSenderInfo"  style="color: #92959E;">' + date + '<strong style="color: black; float:right;">' + htmlEncode(name)
                + '</strong> </p> </div> <div class="col-md-9 chatMessages" ><p class="messageParagraph">' + htmlEncode(message) + '</p></div></div>');
-
+                $('#messagesContainer').animate({ scrollTop: $('#messagesContainer')[0].scrollHeight }, 50);
             };
 
             chat.client.userConnected = function (user, date) {
-                $('#globalChat').append('<div class="row messageInfoContainer"> <div class="col-md-3 messageInfo" > <p  class="messageSenderInfo"  style="color: #92959E;">' + date +
-              '</p> </div> <div class="col-md-9 chatMessages" ><p class="messageParagraph"  style="color: #92959E;">' + htmlEncode(user) + ' Just Connected To The Chat.</p></div></div>');
-                fetchUserList();
+                var groupId = $('#group').attr('data-groupId');
+                if (typeof groupId === 'undefined') {
+                    $('#globalChat').append('<div class="row messageInfoContainer"> <div class="col-md-3 messageInfo" > <p  class="messageSenderInfo"  style="color: #92959E;">' + date +
+                  '</p> </div> <div class="col-md-9 chatMessages" ><p class="messageParagraph"  style="color: #92959E;">' + htmlEncode(user) + ' Just Connected To The Chat.</p></div></div>');
+                    fetchUserList();
+                }
             }
 
             chat.client.userDisconnected = function (user, date) {
-                $('#globalChat').append('<div class="row messageInfoContainer"> <div class="col-md-3 messageInfo" > <p  class="messageSenderInfo"  style="color: #92959E;">' + date +
-             '</p> </div> <div class="col-md-9 chatMessages" ><p class="messageParagraph"  style="color: #92959E;">' + htmlEncode(user) + ' Just Disconnected From The Chat.</p></div></div>');
-                fetchUserList();
+                var groupId = $('#group').attr('data-groupId');
+                if (typeof groupId === 'undefined') {
+                    $('#globalChat').append('<div class="row messageInfoContainer"> <div class="col-md-3 messageInfo" > <p  class="messageSenderInfo"  style="color: #92959E;">' + date +
+                 '</p> </div> <div class="col-md-9 chatMessages" ><p class="messageParagraph"  style="color: #92959E;">' + htmlEncode(user) + ' Just Disconnected From The Chat.</p></div></div>');
+                    fetchUserList();
+                }
             }
 
             // Get the user name and store it to prepend to messages.
@@ -115,13 +113,11 @@
                         } else {
                             chat.server.send($('#message').val(), groupId);
                             saveGroupMessage(groupId, message);
-                          
+
                         }
                         // Clear text box and reset focus for next comment.
                         $('#message').val('').focus();
                         //kepe scroll at bottom
-                        $('#messagesContainer').animate({ scrollTop: $('#messagesContainer')[0].scrollHeight }, 50);
-                        
                     } else {
                         $('#message').focus();
 
@@ -308,9 +304,8 @@
                 $('#PrivateChatButton').css('display', 'none');
                 $('#AllChatButton').css('display', 'block');
                 $('#userList').html(data).promise().done(function () {
-                $('#userList').find($('.groupChat[data-groupId=' + groupId + ']')).addClass("selectedGroup");
+                 $('#userList').find($('.groupChat[data-groupId=' + groupId + ']')).addClass("selectedGroup");
                 });
-          //     
             })
         }
         $('#AllChatButton').click(function (e) {

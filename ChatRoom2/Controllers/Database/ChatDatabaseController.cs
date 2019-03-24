@@ -538,6 +538,9 @@ namespace ChatRoom2.Controllers.Database
                 try
                 {
                     var model = db.Groups.FirstOrDefault(e => e.GroupId == groupId);
+                    var chatMessages = db.GroupMessages.Where(e => e.GroupId == model.GroupId).Select(x => x.ChatMessageId);
+                    var modelsToRemove = db.MessageFlags.Where(e => chatMessages.Select(x => x == e.ChatMessageId).FirstOrDefault()).ToList();
+                    db.MessageFlags.RemoveRange(modelsToRemove);
                     db.Groups.Remove(model);
                     db.SaveChanges();
                     return true;

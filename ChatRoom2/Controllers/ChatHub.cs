@@ -59,32 +59,6 @@ namespace ChatRoom2.Controllers
                                 groupId = groupId
                             });
                         }
-                       
-                        /*
-                        IEnumerable<string> allReceivers;
-                        lock (receiver.ConnectionIds)
-                        {
-                            lock (sender.ConnectionIds)
-                            {
-
-                                allReceivers = receiver.ConnectionIds.Concat(
-                                    sender.ConnectionIds);
-                            }
-                        }
-                        allReceivers = allReceivers.Distinct();
-
-                        foreach (var cid in allReceivers)
-                        {
-
-                            Clients.Client(cid).ReceivePrivateMessage(new
-                            {
-                                sender = sender.User.UserName,
-                                message = message,
-                                time = DateTime.Now.ToShortTimeString(),
-                                isPrivate = true
-                            });
-                        }
-                        */
                     }
                 }
             }

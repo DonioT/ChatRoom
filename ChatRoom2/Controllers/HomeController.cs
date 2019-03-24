@@ -82,13 +82,12 @@ namespace ChatRoom2.Controllers
                     AvatarUrl = avatar
                 });
 
-                if (success)
+                         if (success)
                 {
                     FormsAuthentication.SetAuthCookie(username, true);
                     return Url.Action("Index", "ChatRoom");
                 }
             }
-            ViewBag.username = username;
             return Url.Action("Register", "Home");
         }
 

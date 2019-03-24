@@ -20,7 +20,6 @@ I learned a couple of things during this project:
 
 - Group chatting can be implemented , the database tables and a few functions are designed for this case (but at the moment only 1 on 1 messaging is implemented).
 
-
 ## Screens
 
 - [Login](https://imgur.com/HabnXcJ)

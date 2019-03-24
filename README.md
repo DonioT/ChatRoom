@@ -10,7 +10,7 @@ I learned a couple of things during this project:
 
 - improved jquery knowledge 
 
-- Trying to use best practises such as (reusable views/partial views, user authentication{passing sensitive data through headers, password hashing etc}
+- Trying to use best practises such as (reusable views/partial views, user authentication{passing sensitive data through headers, password hashing etc},  although I'm sure there is a lot i can improve on
 
 ## Known Problems / Improvements
 
@@ -18,8 +18,7 @@ I learned a couple of things during this project:
 
 - Private message notifications don't update in real time if the user is already in the private message tab. There is no listener for that right now (only when the user switches tabs / logs in) 
 
-- Group chatting can be implemented , the database tables and a few functions are designed for this case (but at the moment only 1 on 1 messaging is implemented), although I'm sure there is a lot I'm doing terribly.
-
+- Group chatting can be implemented , the database tables and a few functions are designed for this case (but at the moment only 1 on 1 messaging is implemented).
 
 
 ## Screens
